@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 import com.mongodb.client.MongoDatabase;
 
 @Repository
-public interface ReviewRepository extends MongoRepository<Review,ObjectId>{
-    
+public interface ReviewRepository extends MongoRepository<Review, ObjectId> {
 }
