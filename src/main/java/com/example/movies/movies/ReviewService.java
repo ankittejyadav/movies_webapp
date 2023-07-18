@@ -1,8 +1,9 @@
 package com.example.movies.movies;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Update;
 
 public class ReviewService {
     
@@ -12,7 +13,9 @@ public class ReviewService {
     private MongoTemplate mongoTemplate;
 
     public Review getReview(String reviewBody, String imdbId){
-        Review review=new Review(reviewBody);
-        reviewRepository.insert(review);
+        Review review=reviewRepository.insert(new Review(reviewBody));
+
+        mongoTemplate.update(Movies.class).matching(Criteria.where("imdbId").is(imdbId)).apply(new Update().push("reviewIds").value(review)).first();
+        return review;
     }
 }
